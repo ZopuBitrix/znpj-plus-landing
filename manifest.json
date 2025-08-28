@@ -1,6 +1,6 @@
 {
   "name": "ZNPJ+ - Integração Receita Federal",
-  "description": "Integração completa entre Bitrix24 e Receita Federal para qualificação automática de leads e empresas",
+  "description": "Qualifique leads e empresas automaticamente com dados oficiais da Receita Federal",
   "version": "1.0.0",
   "author": "Zopu - www.zopu.com.br",
   "category": "CRM",
@@ -8,6 +8,21 @@
   "support": {
     "email": "suporte@zopu.com.br",
     "website": "https://www.zopu.com.br"
+  },
+  "app_url": "https://zopu-app-receita-kpi363itd-aislans-projects-459a3416.vercel.app",
+  "installation": {
+    "type": "automatic",
+    "creates_fields": true,
+    "requires_configuration": false
+  },
+  "compatibility": {
+    "bitrix24_version": "20.0.0",
+    "browsers": ["Chrome", "Firefox", "Safari", "Edge"]
+  },
+  "security": {
+    "https_required": true,
+    "data_encryption": true,
+    "lgpd_compliant": true
   },
   "features": [
     "Consulta automática de CNPJ na Receita Federal",
@@ -28,39 +43,5 @@
       "period": "monthly",
       "queries": "unlimited"
     }
-  },
-  "installation": {
-    "type": "automatic",
-    "creates_fields": true,
-    "requires_configuration": false
-  },
-  "compatibility": {
-    "bitrix24_version": "20.0.0",
-    "browsers": ["Chrome", "Firefox", "Safari", "Edge"]
-  },
-  "security": {
-    "https_required": true,
-    "data_encryption": true,
-    "lgpd_compliant": true
-  },
-  "icons": {
-    "16": "https://bitrix24public.com/zopu.bitrix24.com.br/docs/pub/87545db4ded9343f181e86ee3393cb47/showFile/",
-    "32": "https://bitrix24public.com/zopu.bitrix24.com.br/docs/pub/87545db4ded9343f181e86ee3393cb47/showFile/",
-    "48": "https://bitrix24public.com/zopu.bitrix24.com.br/docs/pub/87545db4ded9343f181e86ee3393cb47/showFile/",
-    "128": "https://bitrix24public.com/zopu.bitrix24.com.br/docs/pub/87545db4ded9343f181e86ee3393cb47/showFile/"
-  },
-  "screenshots": [
-    "https://bitrix24public.com/zopu.bitrix24.com.br/docs/pub/87545db4ded9343f181e86ee3393cb47/showFile/"
-  ],
-  "keywords": [
-    "bitrix24",
-    "receita federal",
-    "cnpj",
-    "qualificação",
-    "leads",
-    "empresas",
-    "integração",
-    "zopu",
-    "znpj"
-  ]
+  }
 }

@@ -7,6 +7,11 @@
   "category": "CRM",
   "language": "pt-BR",
   "installation": {
-    "type": "automatic"
-  }
+    "type": "automatic",
+    "creates_fields": true
+  },
+  "compatibility": {
+    "bitrix24_version": "20.0.0"
+  },
+  "app_url": "https://zopu-app-receita-kpi363itd-aislans-projects-459a3416.vercel.app"
 }
