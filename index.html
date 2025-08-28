@@ -291,24 +291,48 @@
             loading.style.display = 'block';
             buttons.style.display = 'none';
             
-            // Simular processo de instalação
-            setTimeout(() => {
-                // Redirecionar para a página de instalação
-                if (typeof BX24 !== 'undefined') {
-                    BX24.init(function() {
-                        BX24.installFinish();
-                    });
-                } else {
-                    // Fallback para ambiente de desenvolvimento
+            // Verificar se estamos no ambiente Bitrix24
+            if (typeof BX24 !== 'undefined') {
+                BX24.init(function() {
+                    console.log('ZNPJ+ - Iniciando instalação...');
+                    
+                    // Aguardar um pouco antes de finalizar
+                    setTimeout(() => {
+                        try {
+                            // Finalizar instalação
+                            BX24.installFinish();
+                            console.log('ZNPJ+ - Instalação finalizada com sucesso');
+                        } catch (error) {
+                            console.error('Erro ao finalizar instalação:', error);
+                            // Fallback: redirecionar para página de instalação
+                            window.location.href = '/install';
+                        }
+                    }, 1000);
+                });
+            } else {
+                // Fallback para ambiente de desenvolvimento
+                setTimeout(() => {
                     window.location.href = '/install';
-                }
-            }, 2000);
+                }, 2000);
+            }
         }
 
         // Inicializar Bitrix24 se disponível
         if (typeof BX24 !== 'undefined') {
             BX24.init(function() {
                 console.log('ZNPJ+ - App inicializado com sucesso');
+            });
+        }
+
+        // Verificar se a instalação foi solicitada automaticamente
+        if (typeof BX24 !== 'undefined') {
+            BX24.init(function() {
+                // Se estamos no processo de instalação, finalizar automaticamente
+                if (window.location.search.includes('install')) {
+                    setTimeout(() => {
+                        BX24.installFinish();
+                    }, 500);
+                }
             });
         }
     </script>
