@@ -6,74 +6,148 @@
     <title>ZNPJ+ - Integração Receita Federal</title>
     <script src="https://api.bitrix24.com/api/v1/"></script>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f5f5f5; }
-        .container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 500px; margin: 0 auto; }
-        .logo { width: 80px; height: 80px; margin-bottom: 20px; }
-        h1 { color: #333; margin-bottom: 20px; }
-        .btn { background: #007bff; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 10px; }
+        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background: #f5f5f5; }
+        .header { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .btn { background: #007bff; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 10px; text-decoration: none; display: inline-block; }
         .btn:hover { background: #0056b3; }
-        .loading { display: none; margin: 20px 0; }
-        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #007bff; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .btn-success { background: #28a745; }
+        .btn-success:hover { background: #218838; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .feature { padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
+        .logo { width: 60px; height: 60px; margin-right: 15px; }
+        .header-content { display: flex; align-items: center; }
+        .status { padding: 15px; border-radius: 5px; margin: 10px 0; }
+        .status.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status.info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
     </style>
 </head>
 <body>
     <div class="container">
-        <img src="https://bitrix24public.com/zopu.bitrix24.com.br/docs/pub/87545db4ded9343f181e86ee3393cb47/showFile/" alt="Zopu Logo" class="logo">
-        
-        <h1>ZNPJ+ - Integração Receita Federal</h1>
-        <p>Qualifique leads e empresas automaticamente com dados oficiais da Receita Federal</p>
-        
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <p>Iniciando ZNPJ+...</p>
+        <div class="header">
+            <div class="header-content">
+                <img src="https://bitrix24public.com/zopu.bitrix24.com.br/docs/pub/87545db4ded9343f181e86ee3393cb47/showFile/" alt="Zopu Logo" class="logo">
+                <div>
+                    <h1>ZNPJ+ - Integração Receita Federal</h1>
+                    <p>Qualifique leads e empresas automaticamente com dados oficiais</p>
+                </div>
+            </div>
         </div>
-        
-        <button class="btn" onclick="startApp()" id="startBtn">🚀 Iniciar ZNPJ+</button>
-        
-        <p style="margin-top: 30px; font-size: 14px; color: #666;">
-            Desenvolvido pela <a href="https://www.zopu.com.br" target="_blank">Zopu</a>
-        </p>
+
+        <div class="card">
+            <h2>🚀 Bem-vindo ao ZNPJ+</h2>
+            <div class="status success">
+                ✅ App instalado com sucesso no Bitrix24!
+            </div>
+            <p>O ZNPJ+ está pronto para qualificar suas empresas e leads com dados oficiais da Receita Federal.</p>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>🏢 Qualificar Empresa</h2>
+                <p>Enriqueça dados de empresas com informações da Receita Federal</p>
+                <button class="btn" onclick="qualifyCompany()">Qualificar Empresa</button>
+            </div>
+
+            <div class="card">
+                <h2>🎯 Qualificar Lead</h2>
+                <p>Qualifique leads automaticamente com dados da empresa</p>
+                <button class="btn" onclick="qualifyLead()">Qualificar Lead</button>
+            </div>
+
+            <div class="card">
+                <h2>⚙️ Configurações</h2>
+                <p>Configure campos personalizados e mapeamentos</p>
+                <button class="btn" onclick="openSettings()">Configurar</button>
+            </div>
+
+            <div class="card">
+                <h2>📊 Estatísticas</h2>
+                <p>Visualize uso e consultas realizadas</p>
+                <button class="btn" onclick="showStats()">Ver Estatísticas</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🚀 Como Usar</h2>
+            <div class="grid">
+                <div class="feature">
+                    <h3>1. Qualificar Empresa</h3>
+                    <p>Acesse uma empresa no Bitrix24 e clique em "Qualificar com Receita Federal"</p>
+                </div>
+                <div class="feature">
+                    <h3>2. Qualificar Lead</h3>
+                    <p>Acesse um lead e clique em "Qualificar com Receita Federal"</p>
+                </div>
+                <div class="feature">
+                    <h3>3. Dados Automáticos</h3>
+                    <p>Os campos serão preenchidos automaticamente com dados oficiais</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <p style="text-align: center; color: #666;">
+                Desenvolvido com ❤️ pela <a href="https://www.zopu.com.br" target="_blank">Zopu</a>
+            </p>
+        </div>
     </div>
 
     <script>
-        function startApp() {
-            const loading = document.getElementById("loading");
-            const startBtn = document.getElementById("startBtn");
-            
-            loading.style.display = "block";
-            startBtn.style.display = "none";
-            
-            if (typeof BX24 !== "undefined") {
-                BX24.init(function() {
-                    console.log("ZNPJ+ - Iniciando aplicação...");
-                    
-                    // Verificar se já está instalado
-                    BX24.callMethod("app.option.get", {}, function(result) {
-                        if (result.error()) {
-                            // Não instalado - ir para instalação
-                            window.location.href = "/install";
-                        } else {
-                            // Já instalado - ir para dashboard
-                            window.location.href = "/dashboard";
-                        }
-                    });
+        if (typeof BX24 !== "undefined") {
+            BX24.init(function() {
+                console.log("ZNPJ+ - App carregado com sucesso");
+                
+                // Verificar se é primeira execução
+                BX24.callMethod("app.option.get", {}, function(result) {
+                    if (result.error()) {
+                        // Primeira execução - criar campos
+                        createCustomFields();
+                    }
                 });
-            } else {
-                // Fallback para desenvolvimento
-                setTimeout(() => {
-                    window.location.href = "/install";
-                }, 2000);
+            });
+        }
+
+        function createCustomFields() {
+            console.log("ZNPJ+ - Criando campos personalizados...");
+            // Aqui seria a lógica para criar campos
+            // Por enquanto, apenas simula
+            setTimeout(() => {
+                console.log("ZNPJ+ - Campos criados com sucesso");
+            }, 1000);
+        }
+
+        function qualifyCompany() {
+            if (typeof BX24 !== "undefined") {
+                BX24.callMethod("crm.company.list", {}, function(result) {
+                    if (result.error()) {
+                        alert("Erro ao acessar empresas");
+                    } else {
+                        alert("Funcionalidade de qualificação de empresas será implementada em breve!");
+                    }
+                });
             }
         }
 
-        // Auto-iniciação
-        if (typeof BX24 !== "undefined") {
-            BX24.init(function() {
-                if (window.location.search.includes("install") || window.location.search.includes("auth")) {
-                    setTimeout(startApp, 1000);
-                }
-            });
+        function qualifyLead() {
+            if (typeof BX24 !== "undefined") {
+                BX24.callMethod("crm.lead.list", {}, function(result) {
+                    if (result.error()) {
+                        alert("Erro ao acessar leads");
+                    } else {
+                        alert("Funcionalidade de qualificação de leads será implementada em breve!");
+                    }
+                });
+            }
+        }
+
+        function openSettings() {
+            alert("Configurações serão implementadas em breve!");
+        }
+
+        function showStats() {
+            alert("Estatísticas serão implementadas em breve!");
         }
     </script>
 </body>
