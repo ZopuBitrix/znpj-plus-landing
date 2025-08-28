@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZNPJ+ - Instalação</title>
+    <script src="https://api.bitrix24.com/api/v1/"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; background: #f5f5f5; }
+        .container { background: white; padding: 40px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto; }
+        .logo { width: 80px; height: 80px; margin-bottom: 20px; }
+        h1 { color: #333; margin-bottom: 20px; }
+        .progress { margin: 30px 0; }
+        .step { padding: 15px; margin: 10px 0; border-radius: 5px; background: #f8f9fa; border-left: 4px solid #007bff; }
+        .step.completed { border-left-color: #28a745; background: #d4edda; }
+        .step.error { border-left-color: #dc3545; background: #f8d7da; }
+        .btn { background: #007bff; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; margin: 10px; }
+        .btn:hover { background: #0056b3; }
+        .loading { display: none; margin: 20px 0; }
+        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #007bff; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://bitrix24public.com/zopu.bitrix24.com.br/docs/pub/87545db4ded9343f181e86ee3393cb47/showFile/" alt="Zopu Logo" class="logo">
+        
+        <h1>ZNPJ+ - Instalação</h1>
+        <p>Configurando integração com Receita Federal...</p>
+        
+        <div class="progress">
+            <div class="step" id="step1">1. Verificando permissões...</div>
+            <div class="step" id="step2">2. Criando campos personalizados...</div>
+            <div class="step" id="step3">3. Configurando integração...</div>
+            <div class="step" id="step4">4. Finalizando instalação...</div>
+        </div>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Instalando ZNPJ+...</p>
+        </div>
+        
+        <button class="btn" onclick="startInstallation()" id="installBtn">🚀 Iniciar Instalação</button>
+        
+        <p style="margin-top: 30px; font-size: 14px; color: #666;">
+            Desenvolvido pela <a href="https://www.zopu.com.br" target="_blank">Zopu</a>
+        </p>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        
+        function updateStep(stepNumber, status) {
+            const step = document.getElementById(`step${stepNumber}`);
+            step.className = `step ${status}`;
+            
+            if (status === "completed") {
+                step.innerHTML = `${stepNumber}. ✅ ${step.innerHTML.split(". ")[1]}`;
+            } else if (status === "error") {
+                step.innerHTML = `${stepNumber}. ❌ ${step.innerHTML.split(". ")[1]}`;
+            }
+        }
+        
+        function startInstallation() {
+            const loading = document.getElementById("loading");
+            const installBtn = document.getElementById("installBtn");
+            
+            loading.style.display = "block";
+            installBtn.style.display = "none";
+            
+            if (typeof BX24 !== "undefined") {
+                BX24.init(function() {
+                    console.log("ZNPJ+ - Iniciando instalação...");
+                    
+                    // Simular processo de instalação
+                    setTimeout(() => {
+                        updateStep(1, "completed");
+                        
+                        setTimeout(() => {
+                            updateStep(2, "completed");
+                            
+                            setTimeout(() => {
+                                updateStep(3, "completed");
+                                
+                                setTimeout(() => {
+                                    updateStep(4, "completed");
+                                    
+                                    // Finalizar instalação
+                                    setTimeout(() => {
+                                        try {
+                                            BX24.installFinish();
+                                            console.log("ZNPJ+ - Instalação finalizada com sucesso");
+                                        } catch (error) {
+                                            console.error("Erro ao finalizar instalação:", error);
+                                            alert("Erro na instalação. Tente novamente.");
+                                            loading.style.display = "none";
+                                            installBtn.style.display = "block";
+                                        }
+                                    }, 1000);
+                                }, 1000);
+                            }, 1000);
+                        }, 1000);
+                    }, 1000);
+                });
+            } else {
+                console.log("BX24 não disponível");
+                alert("Ambiente de desenvolvimento detectado");
+                loading.style.display = "none";
+                installBtn.style.display = "block";
+            }
+        }
+
+        // Auto-iniciação se necessário
+        if (typeof BX24 !== "undefined") {
+            BX24.init(function() {
+                if (window.location.search.includes("install") || window.location.search.includes("auth")) {
+                    setTimeout(startInstallation, 1000);
+                }
+            });
+        }
+    </script>
+</body>
+</html>
