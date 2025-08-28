@@ -1,0 +1,12 @@
+{
+  "name": "ZNPJ+",
+  "description": "Integração Bitrix24 com Receita Federal",
+  "version": "1.0.0",
+  "author": "Zopu",
+  "support": "suporte@zopu.com.br",
+  "category": "CRM",
+  "language": "pt-BR",
+  "installation": {
+    "type": "automatic"
+  }
+}
