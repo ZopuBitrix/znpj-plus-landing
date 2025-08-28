@@ -3,15 +3,58 @@
 <head>
     <title>ZNPJ+</title>
     <script src="//api.bitrix24.com/api/v1/"></script>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        .container { max-width: 500px; margin: 0 auto; }
+        .loading { margin: 20px 0; }
+        .spinner { border: 3px solid #f3f3f3; border-top: 3px solid #007bff; border-radius: 50%; width: 30px; height: 30px; animation: spin 1s linear infinite; margin: 0 auto 10px; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
 </head>
 <body>
-    <h1>ZNPJ+ - Integração Receita Federal</h1>
-    <p>Desenvolvido pela Zopu</p>
+    <div class="container">
+        <h1>ZNPJ+ - Integração Receita Federal</h1>
+        <p>Desenvolvido pela Zopu</p>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Instalando ZNPJ+...</p>
+        </div>
+    </div>
+
     <script>
+        // Função para finalizar instalação
+        function finishInstallation() {
+            if (typeof BX24 !== "undefined") {
+                try {
+                    BX24.installFinish();
+                    console.log("ZNPJ+ - Instalação finalizada com sucesso");
+                } catch (error) {
+                    console.error("Erro ao finalizar instalação:", error);
+                    // Tentar novamente após 2 segundos
+                    setTimeout(finishInstallation, 2000);
+                }
+            }
+        }
+
+        // Inicializar Bitrix24
         if (typeof BX24 !== "undefined") {
             BX24.init(function() {
-                BX24.installFinish();
+                console.log("ZNPJ+ - Bitrix24 inicializado");
+                
+                // Aguardar um pouco antes de finalizar
+                setTimeout(finishInstallation, 1000);
+                
+                // Backup: tentar novamente após 5 segundos
+                setTimeout(finishInstallation, 5000);
             });
+        } else {
+            console.log("ZNPJ+ - BX24 não disponível");
+        }
+
+        // Auto-instalação se detectar parâmetros de instalação
+        if (window.location.search.includes("install") || window.location.search.includes("auth")) {
+            setTimeout(finishInstallation, 500);
         }
     </script>
 </body>
