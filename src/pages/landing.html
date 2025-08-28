@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZNPJ+ - Integração Bitrix24 com Receita Federal | Zopu</title>
+    <meta name="description" content="Automatize consultas à Receita Federal no seu Bitrix24. Qualifique leads e empresas automaticamente com dados oficiais.">
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .hero {
+            padding: 120px 20px 80px;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .features {
+            background: white;
+            padding: 80px 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 40px 20px;
+            border-radius: 15px;
+            background: #f8f9fa;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .feature-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .pricing {
+            background: #f8f9fa;
+            padding: 80px 20px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pricing-card.featured {
+            border: 3px solid #667eea;
+            transform: scale(1.05);
+        }
+
+        .plan-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .plan-price {
+            font-size: 48px;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 5px;
+        }
+
+        .plan-period {
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin: 30px 0;
+        }
+
+        .plan-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .plan-features li:before {
+            content: "✅ ";
+            margin-right: 10px;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 80px 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-title {
+            text-align: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <img src="https://bitrix24public.com/zopu.bitrix24.com.br/docs/pub/87545db4ded9343f181e86ee3393cb47/showFile/" 
+                 alt="Zopu Logo" class="logo">
+            <div class="nav-links">
+                <a href="#features">Funcionalidades</a>
+                <a href="#pricing">Preços</a>
+                <a href="#contact">Contato</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>ZNPJ+ - Automatize Consultas à Receita Federal no Bitrix24</h1>
+        <p>Qualifique leads e empresas automaticamente com dados oficiais da Receita Federal. 
+           Aumente sua produtividade e precisão nas vendas.</p>
+        <p style="font-size: 16px; opacity: 0.8; margin-top: 10px;">Desenvolvido pela <a href="https://www.zopu.com.br" target="_blank" style="color: white; text-decoration: underline;">Zopu</a></p>
+        <div class="cta-buttons">
+            <a href="#contact" class="btn btn-primary">Começar Trial Grátis</a>
+            <a href="#features" class="btn btn-secondary">Ver Funcionalidades</a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Por que escolher o ZNPJ+ da Zopu?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">Qualificação Automática</h3>
+                    <p class="feature-description">Enriqueça leads automaticamente com dados completos da Receita Federal. 
+                       Aumente a taxa de conversão com informações precisas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3 class="feature-title">Dados Oficiais</h3>
+                    <p class="feature-description">Acesso direto à base oficial da Receita Federal. 
+                       Dados sempre atualizados e confiáveis para suas decisões comerciais.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <h3 class="feature-title">Integração Completa</h3>
+                    <p class="feature-description">Funciona perfeitamente com Empresas e Leads do Bitrix24. 
+                       Interface nativa e experiência fluida.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3 class="feature-title">Relatórios Detalhados</h3>
+                    <p class="feature-description">Acompanhe o uso e performance da ferramenta. 
+                       Métricas que ajudam a otimizar seu processo de vendas.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🛡️</div>
+                    <h3 class="feature-title">Segurança Total</h3>
+                    <p class="feature-description">Infraestrutura segura com HTTPS e conformidade LGPD. 
+                       Seus dados sempre protegidos.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚀</div>
+                    <h3 class="feature-title">Implementação Rápida</h3>
+                    <p class="feature-description">Instalação em minutos. 
+                       Comece a usar imediatamente após a configuração inicial.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Planos e Preços</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 class="plan-name">Trial Grátis</h3>
+                    <div class="plan-price">$0</div>
+                    <div class="plan-period">30 dias</div>
+                    <ul class="plan-features">
+                        <li>15 consultas gratuitas</li>
+                        <li>Dados básicos da empresa</li>
+                        <li>Suporte por email</li>
+                        <li>Integração com Empresas</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Começar Agora</a>
+                </div>
+                <div class="pricing-card featured">
+                    <h3 class="plan-name">Plano Pro</h3>
+                    <div class="plan-price">$10</div>
+                    <div class="plan-period">por mês</div>
+                    <ul class="plan-features">
+                        <li>Consultas ilimitadas</li>
+                        <li>Dados completos da empresa</li>
+                        <li>Suporte prioritário</li>
+                        <li>Integração com Empresas e Leads</li>
+                        <li>Relatórios avançados</li>
+                        <li>Atualizações automáticas</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Escolher Pro</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="contact-form" id="contact">
+        <div class="container">
+            <div class="form-container">
+                <h2 class="form-title">Solicite seu Trial Grátis</h2>
+                <form id="leadForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Nome *</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company">Empresa *</label>
+                            <input type="text" id="company" name="company" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefone</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bitrixDomain">Domínio do Bitrix24 *</label>
+                        <input type="text" id="bitrixDomain" name="bitrixDomain" 
+                               placeholder="suaempresa.bitrix24.com.br" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="source">Como conheceu a Zopu?</label>
+                        <select id="source" name="source">
+                            <option value="">Selecione uma opção</option>
+                            <option value="google">Google</option>
+                            <option value="marketplace">Marketplace Bitrix24</option>
+                            <option value="social">Redes Sociais</option>
+                            <option value="indication">Indicação</option>
+                            <option value="other">Outro</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="submit-btn">Solicitar Trial Grátis</button>
+                </form>
+                <div id="alertContainer"></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2024 Zopu. Todos os direitos reservados.</p>
+        <p>ZNPJ+ - Integração Receita Federal para Bitrix24</p>
+        <p><a href="https://www.zopu.com.br" target="_blank" style="color: white; text-decoration: none;">www.zopu.com.br</a></p>
+    </footer>
+
+    <script>
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alertContainer');
+            const alert = document.createElement('div');
+            alert.className = `alert alert-${type}`;
+            alert.textContent = message;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alert);
+            
+            setTimeout(() => {
+                alert.remove();
+            }, 5000);
+        }
+
+        // Processar formulário de lead
+        document.getElementById('leadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const leadData = Object.fromEntries(formData.entries());
+            
+            // Mostrar loading
+            const submitBtn = e.target.querySelector('.submit-btn');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Enviando...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Preparar dados para o Bitrix24 da Zopu
+                const bitrix24Data = {
+                    fields: {
+                        TITLE: `Lead ZNPJ+ - ${leadData.name} (${leadData.company})`,
+                        NAME: leadData.name,
+                        EMAIL: [{
+                            VALUE: leadData.email,
+                            VALUE_TYPE: 'WORK'
+                        }],
+                        PHONE: [{
+                            VALUE: leadData.phone || '',
+                            VALUE_TYPE: 'WORK'
+                        }],
+                        COMPANY_TITLE: leadData.company,
+                        COMMENTS: `Como conheceu: ${leadData.source || 'Não informado'}\nOrigem: Landing Page ZNPJ+`,
+                        SOURCE_ID: 'WEB',
+                        SOURCE_DESCRIPTION: 'Landing Page ZNPJ+',
+                        STATUS_ID: 'NEW',
+                        CURRENCY_ID: 'BRL',
+                        ASSIGNED_BY_ID: 1, // ID do responsável (ajustar conforme necessário)
+                        UTM_SOURCE: 'ZNPJ+ Landing Page',
+                        UTM_MEDIUM: 'Organic',
+                        UTM_CAMPAIGN: 'Trial Request',
+                        UF_CRM_1706029934: leadData.bitrixDomain
+                    }
+                };
+
+                // Enviar lead para o Bitrix24 da Zopu
+                const response = await fetch('https://zopu.bitrix24.com.br/rest/7/fyfjd56zlvaxpdox/crm.lead.add.json', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bitrix24Data)
+                });
+                
+                const result = await response.json();
+                
+                if (result.result) {
+                    showAlert(`✅ Lead criado com sucesso! ID: ${result.result}. Entraremos em contato em breve.`, 'success');
+                    e.target.reset();
+                    
+                    // Log do sucesso
+                    console.log('Lead criado no Bitrix24 da Zopu:', {
+                        leadId: result.result,
+                        data: leadData,
+                        response: result
+                    });
+                } else {
+                    throw new Error('Erro na resposta do Bitrix24');
+                }
+            } catch (error) {
+                console.error('Erro ao enviar lead:', error);
+                showAlert('❌ Erro ao enviar lead. Tente novamente ou entre em contato conosco.', 'error');
+            } finally {
+                // Restaurar botão
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Smooth scroll para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

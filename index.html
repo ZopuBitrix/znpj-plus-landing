@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZNPJ+ - Integração Bitrix24 com Receita Federal | Zopu</title>
+    <meta name="description" content="ZNPJ+ - Integração completa entre Bitrix24 e Receita Federal. Qualifique leads e empresas automaticamente com dados oficiais. Desenvolvido pela Zopu.">
+    <script src="//api.bitrix24.com/api/v1/"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800&display=swap");
+
+        * {
+            margin: 0;
+            padding: 0;
+            font-family: "Montserrat", sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 60px 40px;
+            text-align: center;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            display: block;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 40px;
+            line-height: 1.5;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .feature {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 4px solid #667eea;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .feature-title {
+            color: #333;
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .feature-description {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 40px 0;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .info-box {
+            background: #e7f3ff;
+            border: 1px solid #b3d9ff;
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+        }
+
+        .info-title {
+            color: #0066cc;
+            font-weight: 600;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .info-text {
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .footer {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #eee;
+        }
+
+        .footer-text {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .footer-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer-link:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+            
+            .subtitle {
+                font-size: 16px;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://bitrix24public.com/zopu.bitrix24.com.br/docs/pub/87545db4ded9343f181e86ee3393cb47/showFile/" 
+             alt="Zopu Logo" class="logo">
+        
+        <h1>ZNPJ+ - Integração Receita Federal</h1>
+        <p class="subtitle">Qualifique leads e empresas automaticamente com dados oficiais da Receita Federal no seu Bitrix24</p>
+
+        <div class="info-box">
+            <div class="info-title">🎯 Como Funciona</div>
+            <div class="info-text">
+                O ZNPJ+ integra seu Bitrix24 com a Receita Federal, permitindo consultas automáticas de CNPJ 
+                e enriquecimento de dados de empresas e leads. Instale o app e comece a usar em minutos!
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <div class="feature-icon">⚡</div>
+                <div class="feature-title">Instalação Automática</div>
+                <div class="feature-description">
+                    Campos personalizados criados automaticamente. Configure em poucos cliques e comece a usar.
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🎯</div>
+                <div class="feature-title">Qualificação de Leads</div>
+                <div class="feature-description">
+                    Enriqueça leads automaticamente com dados completos da empresa da Receita Federal.
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🏢</div>
+                <div class="feature-title">Enriquecimento de Empresas</div>
+                <div class="feature-description">
+                    Atualize dados de empresas com informações oficiais e sempre atualizadas.
+                </div>
+            </div>
+            <div class="feature">
+                <div class="feature-icon">🛡️</div>
+                <div class="feature-title">Segurança Total</div>
+                <div class="feature-description">
+                    Infraestrutura HTTPS segura e conformidade com LGPD. Seus dados sempre protegidos.
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-buttons">
+            <button class="btn btn-primary" onclick="installApp()">
+                🚀 Instalar ZNPJ+
+            </button>
+            <a href="https://www.zopu.com.br" target="_blank" class="btn btn-secondary">
+                🌐 Visitar Zopu
+            </a>
+        </div>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Instalando ZNPJ+...</p>
+        </div>
+
+        <div class="footer">
+            <p class="footer-text">Desenvolvido com ❤️ pela <a href="https://www.zopu.com.br" target="_blank" class="footer-link">Zopu</a></p>
+            <p class="footer-text">Suporte: <a href="mailto:suporte@zopu.com.br" class="footer-link">suporte@zopu.com.br</a></p>
+        </div>
+    </div>
+
+    <script>
+        function installApp() {
+            const loading = document.getElementById('loading');
+            const buttons = document.querySelector('.cta-buttons');
+            
+            // Mostrar loading
+            loading.style.display = 'block';
+            buttons.style.display = 'none';
+            
+            // Simular processo de instalação
+            setTimeout(() => {
+                // Redirecionar para a página de instalação
+                if (typeof BX24 !== 'undefined') {
+                    BX24.init(function() {
+                        BX24.installFinish();
+                    });
+                } else {
+                    // Fallback para ambiente de desenvolvimento
+                    window.location.href = '/install';
+                }
+            }, 2000);
+        }
+
+        // Inicializar Bitrix24 se disponível
+        if (typeof BX24 !== 'undefined') {
+            BX24.init(function() {
+                console.log('ZNPJ+ - App inicializado com sucesso');
+            });
+        }
+    </script>
+</body>
+</html>

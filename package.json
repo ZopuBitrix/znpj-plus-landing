@@ -1,0 +1,26 @@
+{
+  "name": "znpj-plus",
+  "version": "1.0.0",
+  "description": "ZNPJ+ - Integração Bitrix24 com Receita Federal desenvolvida pela Zopu",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/server.js"
+  },
+  "keywords": ["bitrix24", "receita-federal", "cnpj", "zopu", "integracao"],
+  "author": "Zopu - www.zopu.com.br",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.0",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.7"
+  }
+}
