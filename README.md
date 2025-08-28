@@ -107,7 +107,7 @@ Os leads são enviados automaticamente para o Bitrix24 da Zopu com os seguintes 
 
 - **Desenvolvido por**: Zopu - www.zopu.com.br
 - **Email**: contato@zopu.com.br
-- **WhatsApp**: (11) 99999-9999
+- **WhatsApp**: (47)3307-9280
 
 ## 📄 Licença
 
